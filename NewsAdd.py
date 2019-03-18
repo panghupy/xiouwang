@@ -1,13 +1,13 @@
 '''希鸥网添加文章'''
 import requests
 import json
-
+import time
 import requests
 import json
 import random
 
 
-def add(title, content, cover_img_name):
+def add(title, content):
     url = 'http://xiouhui.com/web_manage/news_add.php?pid=1&ty=45&tty=0&ttty=0'
     headers = {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.1.1 Safari/605.1.15',
@@ -15,66 +15,26 @@ def add(title, content, cover_img_name):
         'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundarySQqMKpHHXTzK0LMb',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
     }
+    boundary = '----WebKitFormBoundarySQqMKpHHXTzK0LMb'
+    form_data_list = [boundary+'\r\nContent-Disposition: form-data;name="info[pid]"\r\n\r\n1\r\n',
+                      'Content-Disposition: form-data;name="info[pid]"\r\n\r\n1\r\n',
+                      'Content-Disposition: form-data;name="info[ty]"\r\n\r\n45\r\n',
+                      'Content-Disposition: form-data;name="info[tty]"\r\n\r\n0\r\n',
+                      'Content-Disposition: form-data;name="info[ttty]"\r\n\r\n0\r\n',
+                      'Content-Disposition: form-data;name="info[title]"\r\n\r\n' + title + '\r\n',
+                      'Content-Disposition: form-data;name="info[seokeywords]"\r\n\r\n' + title + '\r\n',
+                      'Content-Disposition: form-data;name="info[ftitle]"\r\n\r\n转载\r\n',
+                      'Content-Disposition: form-data;name="info[hits]"\r\n\r\n' + str(
+                          random.randint(1500, 2500)) + '\r\n',
+                      'Content-Disposition: form-data;name="info[content]"\r\n\r\n' + content + '\r\n',
+                      'Content-Disposition: form-data;name="img1";filename="cover.png"\r\nContent-Type:image/jpeg\r\n\r\n'+str(open('cover.png', 'rb').read())+'\r\n',
+                      'Content-Disposition: form-data;name="info[sendtime]"\r\n\r\n'+ time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())+'\r\n',
+                      'Content-Disposition: form-data;name="info[disorder]"\r\n\r\n0\r\n',
+                      'Content-Disposition: form-data;name="dosubmit"\r\n\r\n马上发布\r\n'+boundary]
 
-    form_data = '''
-    ------WebKitFormBoundarySQqMKpHHXTzK0LMb
-    Content-Disposition: form-data; name="info[pid]"
-    
-    1
-    ------WebKitFormBoundarySQqMKpHHXTzK0LMb
-    Content-Disposition: form-data; name="info[ty]"
-    
-    45
-    ------WebKitFormBoundarySQqMKpHHXTzK0LMb
-    Content-Disposition: form-data; name="info[tty]"
-    
-    0
-    ------WebKitFormBoundarySQqMKpHHXTzK0LMb
-    Content-Disposition: form-data; name="info[ttty]"
-    
-    0
-    ------WebKitFormBoundarySQqMKpHHXTzK0LMb
-    Content-Disposition: form-data; name="info[title]"''' + title + '''
-    
-    ------WebKitFormBoundarySQqMKpHHXTzK0LMb
-    Content-Disposition: form-data; name="info[seokeywords]"
-    
-    内容关键字
-    ------WebKitFormBoundarySQqMKpHHXTzK0LMb
-    Content-Disposition: form-data; name="info[seodescription]"
-    
-    内容简介
-    ------WebKitFormBoundarySQqMKpHHXTzK0LMb
-    Content-Disposition: form-data; name="info[ftitle]"
-    
-    发布人
-    ------WebKitFormBoundarySQqMKpHHXTzK0LMb
-    Content-Disposition: form-data; name="info[hits]"
-    
-    阅读量
-    ------WebKitFormBoundarySQqMKpHHXTzK0LMb
-    Content-Disposition: form-data; name="info[content]"''' + content + '''
-    
-   
-    ------WebKitFormBoundarySQqMKpHHXTzK0LMb
-    Content-Disposition: form-data; name="img1"; filename="WechatIMG179.jpeg"
-    Content-Type: image/jpeg''' + str(open(cover_img_name, 'rb')) + '''
-    ------WebKitFormBoundarySQqMKpHHXTzK0LMb
-    Content-Disposition: form-data; name="info[sendtime]"
-    
-    2019-03-18 12:05:46
-    ------WebKitFormBoundarySQqMKpHHXTzK0LMb
-    Content-Disposition: form-data; name="info[disorder]"
-    
-    0
-    ------WebKitFormBoundarySQqMKpHHXTzK0LMb
-    Content-Disposition: form-data; name="dosubmit"
-    
-    马上发布
-    ------WebKitFormBoundarySQqMKpHHXTzK0LMb--
-    '''
-    result = requests.post(url=url, headers=headers, data=form_data.encode()).content.decode()
+    all_data = (boundary+'\r\n').join(form_data_list)
+    print(all_data)
+    result = requests.post(url=url, headers=headers, data=all_data.encode()).content.decode()
     return result
 
-
-print(add(title='不是标题', content='没啥东西', cover_img_name='cover.png'))
+print(add(title='不是标题', content='没啥东西'))
