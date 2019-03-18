@@ -34,9 +34,8 @@ def add(title, content, cover_img_name):
     
     0
     ------WebKitFormBoundarySQqMKpHHXTzK0LMb
-    Content-Disposition: form-data; name="info[title]"
+    Content-Disposition: form-data; name="info[title]"''' + title + '''
     
-    标题
     ------WebKitFormBoundarySQqMKpHHXTzK0LMb
     Content-Disposition: form-data; name="info[seokeywords]"
     
@@ -54,20 +53,12 @@ def add(title, content, cover_img_name):
     
     阅读量
     ------WebKitFormBoundarySQqMKpHHXTzK0LMb
-    Content-Disposition: form-data; name="info[content]"
+    Content-Disposition: form-data; name="info[content]"''' + content + '''
     
-    <p>
-        信息内容&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    </p>
-    <p>
-        <br />
-    </p>
-    <p>
-        <br />
-    </p>
+   
     ------WebKitFormBoundarySQqMKpHHXTzK0LMb
     Content-Disposition: form-data; name="img1"; filename="WechatIMG179.jpeg"
-    Content-Type: image/jpeg''' + open('WechatIMG179.jpeg', 'rb') + '''
+    Content-Type: image/jpeg''' + str(open(cover_img_name, 'rb')) + '''
     ------WebKitFormBoundarySQqMKpHHXTzK0LMb
     Content-Disposition: form-data; name="info[sendtime]"
     
@@ -82,8 +73,8 @@ def add(title, content, cover_img_name):
     马上发布
     ------WebKitFormBoundarySQqMKpHHXTzK0LMb--
     '''
-    result = requests.post(url=url, headers=headers, data=form_data).content.decode()
+    result = requests.post(url=url, headers=headers, data=form_data.encode()).content.decode()
     return result
 
 
-print(add(title='不是标题', content='没啥东西', cover_img_name=''))
+print(add(title='不是标题', content='没啥东西', cover_img_name='cover.png'))
