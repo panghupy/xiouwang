@@ -2,21 +2,88 @@
 import requests
 import json
 
-'''
-<li><label>信息标题<b>*</b></label><input name="info[title]" type="text" class="dfinput" value=""  style="width:518px;"/> <input type="checkbox" name="info[isgood]" value="1" > 推荐 </li>
-					<li><label>内容关键字<b>*</b></label><input name="info[seokeywords]" type="text" id="seokeywords" value="" class="dfinput" style="width:518px;"></li>
-					<li><label>内容简介<b>*</b></label><textarea name="info[seodescription]" id="seodescription" style="width:520px;height:100px;" class="dfinput"></textarea></li>
-                    <li><label>发布人<b>*</b></label><input name="info[ftitle]" type="text" class="dfinput" value="" style="width:518px;"/></li>
-					<li><label>阅读量<b>*</b></label><input name="info[hits]" type="text" id="hits" value="" class="dfinput" style="width:518px;"></li>
-					<li><label>信息内容<b>*</b></label><textarea class="editor_id" name="info[content]" style="width:520px;height:350px;"></textarea></li>
-					<li><label>封面图片<b>*</b></label><input name="img1" type="file" id="img1"> <font color="#FF0000">图片大小:20480K内,图片尺寸：317*217px</font></li>
-					<li><label>创建时间<b>*</b></label><input name="info[sendtime]" type="text" class="dfinput" value="2019-03-18 10:42:04" style="width:150px;"/></li>
-					<li><label>信息排序<b>*</b></label><input name="info[disorder]" type="text" class="dfinput" value="0" style="width:100px;"/> 注：数字越大越排在前 参考数值1- 4840 </li>			
-'''
-url = 'http://xiouhui.com/web_manage/news_add.php?pid=1&ty=45&tty=0&ttty=0'
-headers = {
-    'User-Agent': 'Mozilla/5.0(X11;Linux x86_64)AppleWebKit/537.36(KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36',
-    'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundarynMKrhYz4DWGjdCsY',
-    'Cookie': 'sys_guestid=1552825744; UM_distinctid=1698ba0ffb77a-085c7f08339b19-18211c0a-1fa400-1698ba0ffb8192; PHPSESSID=fpc2plrtr2ellkmbek4p918t93; CNZZDATA1273247885=1735094777-1552825778-%7C1552871506',
-    'Referer': 'http://xiouhui.com/web_manage/news_add.php?pid=1&ty=45&tty=0&ttty=0', }
+import requests
+import json
+import random
 
+
+def add(title, content, cover_img_name):
+    url = 'http://xiouhui.com/web_manage/news_add.php?pid=1&ty=45&tty=0&ttty=0'
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.1.1 Safari/605.1.15',
+        'Cookie': 'UM_distinctid=1697a0b538f2d0-0e0dfe104b5295-49183405-232800-1697a0b5390506; CNZZDATA1273247885=71788213-1552871280-http%253A%252F%252Fxiouhui.com%252F%7C1552871280; PHPSESSID=dj80rqmko351eu5j34fra9qqu2; sys_guestid=1552871275',
+        'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundarySQqMKpHHXTzK0LMb',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    }
+
+    form_data = '''
+    ------WebKitFormBoundarySQqMKpHHXTzK0LMb
+    Content-Disposition: form-data; name="info[pid]"
+    
+    1
+    ------WebKitFormBoundarySQqMKpHHXTzK0LMb
+    Content-Disposition: form-data; name="info[ty]"
+    
+    45
+    ------WebKitFormBoundarySQqMKpHHXTzK0LMb
+    Content-Disposition: form-data; name="info[tty]"
+    
+    0
+    ------WebKitFormBoundarySQqMKpHHXTzK0LMb
+    Content-Disposition: form-data; name="info[ttty]"
+    
+    0
+    ------WebKitFormBoundarySQqMKpHHXTzK0LMb
+    Content-Disposition: form-data; name="info[title]"
+    
+    标题
+    ------WebKitFormBoundarySQqMKpHHXTzK0LMb
+    Content-Disposition: form-data; name="info[seokeywords]"
+    
+    内容关键字
+    ------WebKitFormBoundarySQqMKpHHXTzK0LMb
+    Content-Disposition: form-data; name="info[seodescription]"
+    
+    内容简介
+    ------WebKitFormBoundarySQqMKpHHXTzK0LMb
+    Content-Disposition: form-data; name="info[ftitle]"
+    
+    发布人
+    ------WebKitFormBoundarySQqMKpHHXTzK0LMb
+    Content-Disposition: form-data; name="info[hits]"
+    
+    阅读量
+    ------WebKitFormBoundarySQqMKpHHXTzK0LMb
+    Content-Disposition: form-data; name="info[content]"
+    
+    <p>
+        信息内容&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </p>
+    <p>
+        <br />
+    </p>
+    <p>
+        <br />
+    </p>
+    ------WebKitFormBoundarySQqMKpHHXTzK0LMb
+    Content-Disposition: form-data; name="img1"; filename="WechatIMG179.jpeg"
+    Content-Type: image/jpeg''' + open('WechatIMG179.jpeg', 'rb') + '''
+    ------WebKitFormBoundarySQqMKpHHXTzK0LMb
+    Content-Disposition: form-data; name="info[sendtime]"
+    
+    2019-03-18 12:05:46
+    ------WebKitFormBoundarySQqMKpHHXTzK0LMb
+    Content-Disposition: form-data; name="info[disorder]"
+    
+    0
+    ------WebKitFormBoundarySQqMKpHHXTzK0LMb
+    Content-Disposition: form-data; name="dosubmit"
+    
+    马上发布
+    ------WebKitFormBoundarySQqMKpHHXTzK0LMb--
+    '''
+    result = requests.post(url=url, headers=headers, data=form_data).content.decode()
+    return result
+
+
+print(add(title='不是标题', content='没啥东西', cover_img_name=''))
